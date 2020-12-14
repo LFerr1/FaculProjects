@@ -2,7 +2,15 @@
 #include <stdlib.h>
 #include <time.h>
 
-
+int * ArrayMaker(int tamanho){
+    int *v; 
+    v = (int *) malloc(tamanho * sizeof(int));
+    for (int i = 0; i < tamanho; i++)    {        
+        v[i] = rand() % 999;
+    }
+    
+    return v;
+}
 
 
 void print_array(int array[], int tamanho)
@@ -78,35 +86,41 @@ void BubbleSort(int array[], int tamanho){
 
 int main(int argc, const char * argv[]){
     clock_t t, t2;
+    int i;    
 
-
-    int array[] = {90,12,54,1,39,4,65,13,99,123,5,2,81,64,22};
+    int *array = ArrayMaker(i);
     int array_byte = sizeof(array);
-    int tamanho = array_byte/sizeof(int);
-    print_array(array, tamanho);    
     
-    int *temp = (int*)malloc(array_byte);
-    {
-        t = clock();
-        quicksort(array, 0, tamanho-1);    
-        t = clock() - t; 
-        printf("Tempo de execucao Quick: %lf", ((double)t)/((CLOCKS_PER_SEC/1000.0)));
+      
+    
+    for (i=2; i<200; i=i+10) {
+        int *array = ArrayMaker(i);
+        int array_byte = sizeof(array);
+        int *temp = (int*)malloc(array_byte);
+        {
+            t = clock();
+            quicksort(array, 0, i-1);    
+            t = clock() - t; 
+            printf("Quick: Quantidade de elementos: %d\n Tempo de execução: %lf",i, ((double)t2)/((CLOCKS_PER_SEC/1000.0)));
+            printf("\n");
+            printf("\n");
+            
+        }
+        
+        {
+            t2 = clock();
+            BubbleSort(array, i);
+            t2= clock();
+            printf("BUBBLE: Quantidade de elementos: %d\n Tempo de execução: %lf",i, ((double)t2)/((CLOCKS_PER_SEC/1000.0)));
+            printf("\n");
+            printf("\n");
+            
+        }
         printf("\n");
-        printf("Quick \n");
-        print_array(array, tamanho);
+        free(temp);
     }
-       
-    {
-        t2 = clock();
-        BubbleSort(array, tamanho);
-        t2= clock();
-        printf("Tempo de execucao Bubble: %lf", ((double)t2)/((CLOCKS_PER_SEC/1000.0)));
-        printf("\n");
-        printf("Bubble \n");
-        print_array(array, tamanho);
-    }
+    
 
-    free(temp);
 
     return 0;
 }
